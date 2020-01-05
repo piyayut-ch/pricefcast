@@ -39,6 +39,15 @@ pd.options.display.float_format = '{:,.4f}'.format
 monthTH = pd.read_excel('../data/month.xlsx')
 month_map = dict(zip(monthTH.short_th, monthTH.num))
 
+
+class LogScaler:
+    def transform(self, data):
+        data = data if type(data) is np.ndarray else np.array(data)
+        return np.log(data)    
+    def inverse_transform(self, data):
+        return np.exp(data)
+    
+    
 # define functions
 
 def read_price(name):
@@ -110,6 +119,7 @@ def data_transform(df):
     scaler   = StandardScaler()
     scaled   = scaler.fit_transform(log_diff) #expect 2D array
     return scaler, pd.DataFrame(scaled, columns=['scaled'], index=df.index)
+
 
 def data_inverse(fcast, actual, scaler, base_index):
     """
