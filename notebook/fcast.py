@@ -1,6 +1,7 @@
 # A module contain functions used for forecasting
 import os
 import numpy as np
+from scipy import stats
 import pandas as pd
 import seaborn as sns
 import datetime
@@ -267,6 +268,7 @@ def forecast(data, model, config, n_forecast=4):
                               n_forecast=n_forecast)
     
     return yhat
+
 
 def plot_fcast(data, method='ets', step=1):
     """
