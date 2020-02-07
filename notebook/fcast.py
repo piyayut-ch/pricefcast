@@ -270,6 +270,29 @@ def forecast(data, model, config, n_forecast=4):
     return yhat
 
 
+def compute_error(data, model):
+    train, validate, train2, test = data_split(data)
+    yhat  = getattr(data, f'{model}_yhat')
+    n_error = yhat.shape[1]
+    error = pd.DataFrame()
+    for i in range(n_error):
+        error[f'err{i+1}'] = test.iloc[i:,0] - yhat.iloc[:,i].shift(i)
+    return error
+
+
+def compute_rmse(data, model):
+    train, validate, train2, test = data_split(data)
+    yhat  = getattr(data, f'{model}_yhat')
+    n_test = len(yhat.iloc[:,0].dropna()) 
+    n_error = yhat.shape[1]
+    res = []
+    for i in range(n_error):
+        y_    = test.iloc[i:i+n_test].to_numpy().reshape(-1)
+        yhat_ = yhat.iloc[:i+n_test,i].to_numpy().reshape(-1)
+        res.append(rmse(y_, yhat_))
+    return res
+
+
 def plot_fcast(data, method='ets', step=1):
     """
     Plot forecast vs actual
