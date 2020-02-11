@@ -311,4 +311,21 @@ def plot_fcast(data, method='ets', step=1):
     ax.set_ylim(0)
     sns.despine(bottom=False, left=True, ax=ax)
 
-
+    
+def my_plot(ax, data, method='ets', step=1):
+    """
+    Plot forecast vs actual
+    """
+    
+    train, validate, train2, test = data_split(data)
+    yhat  = getattr(data, f'{method}_yhat')
+    yhat = data.join(yhat)
+    
+    ax.plot(train2, color='black', alpha=0.4, lw=1)
+    ax.plot(test, color='royalblue', lw=1)
+    ax.plot(yhat[f'yhat{step}'].shift(step-1), color='crimson', ls='dashed', lw=1)
+    
+    ax.set_xlim([datetime.date(2008, 1, 1), datetime.date(2019, 9, 1)])
+    ax.set_ylim(0)
+    sns.despine(bottom=False, left=True, ax=ax)
+    
