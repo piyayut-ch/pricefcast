@@ -132,7 +132,8 @@ def data_transform(data, method=None):
   Return:
     a transformmed dataframe and a scaler
   '''
-
+  
+  
   if method=="standard":
     scaler = StandardScaler().fit(data)
   elif method=="minmax":
@@ -158,6 +159,7 @@ def data_difference(data, n_diff):
 
 def inverse_difference(data, correction):
   return data + correction
+
 
 
 def data_split(data, frac_validate=.2, frac_test=.2):
