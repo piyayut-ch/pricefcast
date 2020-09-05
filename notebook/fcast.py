@@ -219,6 +219,7 @@ def data_2keras(data, n_lag=12, n_forecast=4, include_dummies=False):
 
   return x, y, date_idx
 
+
 def select_traintest(data, search_mode):
   if search_mode == True:
     train = getattr(data, "train")
